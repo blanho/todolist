@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: blanho
+      POSTGRES_PASSWORD: blanho
+      PGDATA: /data/postgres
+    ports:
+      - "5332:5432"
+    networks:
+      - db
+    volumes:
+      - db:/data/postgres
+    restart: unless-stopped
+networks:
+  db:
+    driver: bridge
+volumes:
+  db:
