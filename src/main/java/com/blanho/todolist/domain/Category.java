@@ -1,15 +1,13 @@
 package com.blanho.todolist.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -22,6 +20,14 @@ public class Category {
     private String name;
 
     private String description;
+
+    @Column( name = "created_at")
+    @CreationTimestamp
+    private Date createdAt;
+
+    @Column( name = "updated_at")
+    @CreationTimestamp
+    private Date updatedAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ToDoList> toDoLists;

@@ -9,6 +9,5 @@ public interface ToDoService {
     ToDoListResponse updateToDoList(ToDoListDto toDoListDto, Long id, String email);
     ToDoListResponse getToDoListById(Long id, String email);
     void deleteToDoListById(Long id, String email);
-
     List<ToDoListResponse> getTodoByCategory(Long categoryId);
 }

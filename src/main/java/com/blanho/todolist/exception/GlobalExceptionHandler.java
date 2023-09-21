@@ -14,7 +14,6 @@ import java.util.Date;
 @ControllerAdvice
 @EnableWebSecurity
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetail> ResourceNotFoundExceptionHandler(
             ResourceNotFoundException exception,

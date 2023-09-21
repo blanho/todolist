@@ -6,14 +6,15 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/todos")
 @Validated
+@RequestMapping("/api/v1/todos")
 public class TodoController {
     private final ToDoService todoService;
     @Autowired
@@ -32,12 +33,14 @@ public class TodoController {
         return ResponseEntity.ok(todoService.getToDoListById(id, authentication.getName()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ResponseEntity<ToDoListResponse> createToDo(@RequestBody @Valid ToDoListDto todo, Authentication authentication) {
         ToDoListResponse toDoList = todoService.createToDoList(todo, authentication.getName());
        return new ResponseEntity<>(toDoList, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ToDoListResponse> updateTodo(
             @PathVariable(name = "id") Long id,
@@ -47,6 +50,8 @@ public class TodoController {
         ToDoListResponse toDoList = todoService.updateToDoList(todo, id, authentication.getName());
         return new ResponseEntity<>(toDoList, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTodo(
             @PathVariable(name = "id") Long id,
@@ -55,7 +60,6 @@ public class TodoController {
         todoService.deleteToDoListById(id, authentication.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     @GetMapping("/category/{id}")
     public ResponseEntity<List<ToDoListResponse>> getTodoByCategory(@PathVariable("id") Long categoryId) {
         List<ToDoListResponse> toDoLists = todoService.getTodoByCategory(categoryId);

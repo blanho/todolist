@@ -81,7 +81,16 @@ public class ToDoListServiceImpl implements ToDoService {
 
     @Override
     public ToDoListResponse getToDoListById(Long id, String email) {
-        return null;
+        ToDoList toDoList = toDoListRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TodoList", "id", id));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        boolean isAuthor = Objects.equals(toDoList.getAuthor().getId(), user.getId());
+        if (!isAuthor) {
+            throw new ToDoApiException(HttpStatus.UNAUTHORIZED, "You are not allowed to access this todo");
+        }
+        return mapToDto(toDoList);
     }
 
 

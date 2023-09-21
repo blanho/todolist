@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
     public AuthServiceImpl(
             AuthenticationManager authenticationManager,
@@ -51,6 +51,7 @@ public class AuthServiceImpl implements AuthService {
                         loginDto.getPassword()
                 )
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication);
         return JwtAuthResponse.builder().
@@ -68,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
       User user = User.builder()
               .name(registerDTO.getName())
               .email(registerDTO.getEmail())
-              .password(registerDTO.getPassword())
+              .password(passwordEncoder.encode(registerDTO.getPassword()))
               .role(Role.USER)
               .build();
 
