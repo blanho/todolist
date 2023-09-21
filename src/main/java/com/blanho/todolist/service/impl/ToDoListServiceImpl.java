@@ -80,7 +80,7 @@ public class ToDoListServiceImpl implements ToDoService {
     }
 
     @Override
-    public ToDoListResponse getToDoListById(Long id, String email) {
+        public ToDoListResponse getToDoListById(Long id, String email) {
         ToDoList toDoList = toDoListRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TodoList", "id", id));
         User user = userRepository.findByEmail(email)

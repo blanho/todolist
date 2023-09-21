@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class ToDoApiException extends NoStackTraceException {
     private final HttpStatus status;
-    private String message;
+    private final String message;
 
     public ToDoApiException(HttpStatus status, String message) {
         super(message);

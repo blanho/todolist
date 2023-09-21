@@ -1,10 +1,8 @@
 package com.blanho.todolist.domain;
-
 import com.blanho.todolist.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.util.*;
 
 @Data
@@ -40,4 +38,6 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ToDoList> toDoLists = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Media media;
 }

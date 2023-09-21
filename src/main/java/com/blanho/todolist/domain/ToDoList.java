@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -11,7 +12,6 @@ import java.util.Date;
 @Entity
 @Table(name = "todos")
 public class ToDoList {
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +38,10 @@ public class ToDoList {
     @JoinColumn(name = "user_id")
     private User author;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "category_id")
-   private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> images;
 }
